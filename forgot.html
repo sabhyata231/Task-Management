@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password | IP Tech</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        width: 100%;
+        height: 45%;
+        background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.799) 1px,
+            transparent 1px
+          ),
+          linear-gradient(135deg, #6c63ff, #9b35a4, #ff61d2); /* gradient */
+        background-size: 20px 20px, cover; /* spacing of dots */
+        border-radius: 100% 100% 0 0;
+        z-index: -1;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 60px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #fff;
+      }
+
+      .navbar .logo {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .navbar .right {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .navbar .right a {
+        text-decoration: none;
+        color: #374151;
+        margin-left: 8px;
+        font-weight: 600;
+      }
+
+      .navbar .right .btn {
+        background: #4f46e5;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+
+      .navbar .right .btn:hover {
+        background: #443ebc;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+
+      /* Form Container */
+      .container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+        width: 360px;
+        text-align: center;
+      }
+
+      .card h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        color: #111827;
+      }
+
+      .card input {
+        width: 100%;
+        padding: 12px;
+        margin: 12px 0;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        background: #6366f1;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: #4f46e5;
+      }
+
+      .card a {
+        display: inline-block;
+        margin-top: 12px;
+        font-size: 14px;
+        color: #4f46e5;
+        text-decoration: none;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+
+      .card label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 2px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="logo">IP Tech Project Management</div>
+      <div class="right">
+        Don’t have an account? <a href="signup.html" class="btn">Sign Up</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+  <div class="container">
+    <div class="card">
+      <h2>Forgot your password?</h2>
+      <form action="recover.html" method="get">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit" class="btn-primary">Send me the link</button>
+      </form>
+      <a href="login.html">or Sign In</a>
+    </div>
+  </div>
+
+
+    <!-- Footer -->
+    <div class="footer"></div>
+  </body>
+</html>

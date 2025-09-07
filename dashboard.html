@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | TaskNest</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #fff;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(
+  90deg,
+  #ffafbd 0%,   /* soft pink */
+  #ffc3a0 20%,  /* peach/pink */
+  #d6a4ff 50%,  /* light purple */
+  #c9e4ff 80%,  /* light blue */
+  #ffffff 100%  /* white fade */
+);
+
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      /* Step container */
+      .step {
+        display: none;
+        text-align: center;
+        padding: 50px 20px;
+      }
+      .step.active {
+        display: block;
+      }
+
+      .step h3 {
+        font-size: 24px;
+        margin-bottom: 30px;
+        color: #222;
+      }
+
+      /* Options */
+      .options {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+      }
+
+      .options button,
+      .options input {
+        background: #fff;
+        border: 1.5px solid #ddd;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        color: #333;
+        transition: all 0.3s;
+      }
+
+      .options button:hover {
+        background: #f0f0ff;
+        border-color: #6c63ff;
+        color: #6c63ff;
+      }
+
+      .options input {
+        width: 60%;
+      }
+
+      /* Progress + Navigation Wrapper */
+      .bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #fff; /* white background strip */
+        box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        padding: 0 0 20px; /* top & bottom spacing */
+      }
+
+      /* Progress bar */
+      .progress-container {
+        width: calc(100% - 80px); /* leaves margin on both sides */
+        margin: 0 auto; /* centers it */
+        background: #e0e0e0;
+        height: 6px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(
+  90deg,
+  #a445b2,   /* Purple/Pink */
+  #d41872,   /* Pink */
+  #ff0066,   /* Magenta */
+  #ff8c00,   /* Orange */
+  #ffd200,   /* Yellow */
+  #21d190,   /* Green-Teal */
+  #00c6ff    /* Blue */
+);
+
+        transition: width 0.5s;
+      }
+
+      /* Navigation */
+      .navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px 0; /* space above nav buttons */
+      }
+
+      .navigation button {
+        background: #6c63ff;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .navigation button:hover {
+        background: #574fd6;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div>IP Tech Project Management</div>
+      <div>Welcome, <span id="userName"></span>!</div>
+    </div>
+
+    <!-- Steps -->
+    <div class="step active">
+      <h3>What would you like to use IP Tech Project Management for?</h3>
+      <div class="options">
+        <button onclick="selectOption('Work')">Work</button>
+        <button onclick="selectOption('Personal')">Personal</button>
+        <button onclick="selectOption('School')">School</button>
+        <button onclick="selectOption('Student')">Student</button>
+        <button onclick="selectOption('Freelancer')">Freelancer</button>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>What would you like to manage?</h3>
+      <div class="options">
+        <button>HR & Recruiting</button>
+        <button>Support</button>
+        <button>IT</button>
+        <button>Marketing</button>
+        <button>Operations</button>
+        <button>Software Development</button>
+        <button>Creative & Design</button>
+        <button>Other</button>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>How did you hear about us?</h3>
+      <div class="options">
+        <button>Google</button>
+        <button>Facebook</button>
+        <button>LinkedIn</button>
+        <button>Friend / Colleague</button>
+        <button>YouTube</button>
+        <button>Other</button>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>Invite people to your Workspace</h3>
+      <div class="options">
+        <input
+          type="email"
+          placeholder="Enter email addresses (comma separated)"
+        />
+      </div>
+    </div>
+
+    <!-- Fixed Bottom Bar -->
+    <div class="bottom-bar">
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="navigation">
+        <button id="prev">⬅ Back</button>
+        <button id="skip">Skip ⏭</button>
+        <button id="next">Next ➡</button>
+      </div>
+    </div>
+
+    <script>
+      // Show user email or name
+      const email = localStorage.getItem("signupEmail") || "User";
+      document.getElementById("userName").innerText = email.split("@")[0];
+
+      const steps = document.querySelectorAll(".step");
+      const progressBar = document.getElementById("progressBar");
+      const prevBtn = document.getElementById("prev");
+      const nextBtn = document.getElementById("next");
+      const skipBtn = document.getElementById("skip");
+
+      let currentStep = 0;
+
+      function updateSteps() {
+        steps.forEach((step, index) => {
+          step.classList.toggle("active", index === currentStep);
+        });
+        progressBar.style.width =
+          (currentStep / (steps.length - 1)) * 100 + "%";
+
+        prevBtn.style.display = currentStep === 0 ? "none" : "inline-block";
+        skipBtn.style.display =
+          currentStep === steps.length - 1 ? "none" : "inline-block";
+        nextBtn.textContent =
+          currentStep === steps.length - 1 ? "Finish" : "Next ➡";
+      }
+
+      nextBtn.addEventListener("click", () => {
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          updateSteps();
+        } else {
+          alert("🎉 Onboarding Completed! Redirecting to Dashboard...");
+          window.location.href = "main_dashboard.html";
+        }
+      });
+
+      prevBtn.addEventListener("click", () => {
+        if (currentStep > 0) {
+          currentStep--;
+          updateSteps();
+        }
+      });
+
+      skipBtn.addEventListener("click", () => {
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          updateSteps();
+        }
+      });
+
+      function selectOption(choice) {
+        console.log("Selected:", choice);
+      }
+
+      updateSteps();
+    </script>
+  </body>
+</html>

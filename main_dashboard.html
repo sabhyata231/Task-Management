@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workspace - UI</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    
+    <link rel="stylesheet" href="stylemain.css">
+
+  </head>
+  <body>
+    <div class="assignee-popup" id="assigneePopup">
+      <input type="email" placeholder="Enter email..." id="assigneeInput" />
+      <div class="suggestions" id="suggestions">
+        <div class="suggestion-item">iptech@example.com</div>
+        <div class="suggestion-item">john.doe@example.com</div>
+        <div class="suggestion-item">jane.smith@example.com</div>
+      </div>
+    </div>
+
+    <!-- 📅 Date Picker Popup -->
+    <div class="due-date-popup" id="dueDatePopup">
+      <div class="due-date-header">
+        <div class="date-field">
+          <label>Start</label>
+          <input
+            type="text"
+            id="startDate"
+            placeholder="Select start date"
+            readonly
+          />
+        </div>
+        <div class="date-field">
+          <label>Due</label>
+          <input
+            type="text"
+            id="dueDate"
+            placeholder="Select due date"
+            readonly
+          />
+        </div>
+      </div>
+
+      <div class="due-date-container">
+        <!-- Left side (Presets) -->
+        <div class="due-date-left">
+          <div class="date-option">Today <span class="day">Mon</span></div>
+          <div class="date-option">Tomorrow <span class="day">Tue</span></div>
+          <div class="date-option">
+            This weekend <span class="day">Sat</span>
+          </div>
+          <div class="date-option">Next week <span class="day">Mon</span></div>
+          <div class="date-option">
+            Next weekend <span class="day">Sat</span>
+          </div>
+          <div class="date-option">2 weeks <span class="day">15 Sep</span></div>
+          <div class="date-option">4 weeks <span class="day">29 Sep</span></div>
+          <div class="date-option recurring">Set Recurring</div>
+        </div>
+
+        <!-- Right side (Calendar) -->
+        <div class="due-date-right">
+          <div class="calendar-header">
+            <button id="prevMonth">&lt;</button>
+            <span id="monthYear"></span>
+            <button id="nextMonth">&gt;</button>
+          </div>
+          <table class="calendar" id="calendar"></table>
+        </div>
+      </div>
+    </div>
+
+  <!-- Popup -->
+  <div class="priority-popup" id="priorityPopup">
+    <div class="popup-header">Task Priority</div>
+
+    <div class="priority-option" data-priority="urgent">
+      <span class="priority-flag urgent">🚩</span>
+      <span class="priority-label">Urgent</span>
+    </div>
+    <div class="priority-option" data-priority="high">
+      <span class="priority-flag high">🚩</span>
+      <span class="priority-label">High</span>
+    </div>
+    <div class="priority-option" data-priority="normal">
+      <span class="priority-flag normal">🚩</span>
+      <span class="priority-label">Normal</span>
+    </div>
+    <div class="priority-option" data-priority="low">
+      <span class="priority-flag low">🚩</span>
+      <span class="priority-label">Low</span>
+    </div>
+    <div class="priority-option clear" data-priority="clear">
+      <span class="priority-flag">⭕</span>
+      <span class="priority-label">Clear</span>
+    </div>
+
+    <div class="popup-divider"></div>
+
+    <div class="popup-footer">
+      <span class="footer-text">Add to Personal Priorities</span>
+      <div class="footer-avatars">
+        <div class="avatar">S</div>
+        <div class="avatar add">+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="workspace">
+        <div class="logo">IP</div>
+        <span>IP Tech's Workspace ▼</span>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Search   Ctrl + K" />
+      </div>
+      <div class="topbar-right">
+        <div class="icon">✔️</div>
+        <div class="icon">🎥</div>
+        <div class="profile">
+          IP
+          <div class="status-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout -->
+    <div class="layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="top-links">
+          <a href="#"
+            ><img src="https://img.icons8.com/ios-filled/50/home.png" /><span
+              >Home</span
+            ></a
+          >
+          <a href="#"
+            ><img
+              src="https://img.icons8.com/ios-filled/50/calendar.png"
+            /><span>Planner</span></a
+          >
+          <a href="#"
+            ><img src="https://img.icons8.com/ios-filled/50/menu.png" /><span
+              >More</span
+            ></a
+          >
+        </div>
+        <div class="bottom-links">
+          <a href="#"
+            ><img
+              src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"
+            /><span>Invite</span></a
+          >
+          <a href="#"
+            ><img src="https://img.icons8.com/ios-filled/50/upload.png" /><span
+              >Upgrade</span
+            ></a
+          >
+        </div>
+      </div>
+
+      <!-- Menu Sidebar -->
+      <div class="menu-sidebar">
+        <h3>
+          Home <button class="create-btn" id="createBtn">+ Create</button>
+        </h3>
+        <!-- My Tasks -->
+        <div class="menu-section">
+          <div class="menu-header" onclick="toggleDropdown('myTasksDropdown')">
+            <span>👤 My Tasks</span><span class="arrow">▼</span>
+          </div>
+          <ul class="dropdown" id="myTasksDropdown">
+            <li>📌 Assigned to me</li>
+            <li>📅 Today & Overdue</li>
+            <li>📝 Personal List</li>
+          </ul>
+        </div>
+        <!-- Direct Messages -->
+        <div class="menu-section">
+          <div
+            class="menu-header"
+            onclick="toggleDropdown('directMessagesDropdown')"
+          >
+            <span>💬 Direct Messages</span><span class="arrow">▼</span>
+          </div>
+          <ul class="dropdown" id="directMessagesDropdown">
+            <li>🟢 IP Tech — You</li>
+            <li>➕ New Message</li>
+          </ul>
+        </div>
+        <!-- Spaces -->
+        <div class="menu-section">
+          <div class="menu-header" onclick="toggleDropdown('spacesDropdown')">
+            <span>🏢 Spaces</span><span class="arrow">▼</span>
+          </div>
+          <ul class="dropdown" id="spacesDropdown">
+            <li>➕ New Space</li>
+            <li>👥 Team Space</li>
+            <li>✅ Project 1 <span class="count">3</span></li>
+            <li>✅ Project 2 <span class="count">3</span></li>
+            <li>📄 Project Notes</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Create Menu -->
+      <div class="create-menu" id="createMenu">
+        <h4>Create</h4>
+        <div class="create-item">
+          <div class="icon task">✓</div>
+          Task <span class="shortcut">Alt+T</span>
+        </div>
+        <div class="create-item">
+          <div class="icon list">≡</div>
+          List
+        </div>
+        <div class="create-item">
+          <div class="icon space">◎</div>
+          Space
+        </div>
+        <div class="create-item">
+          <div class="icon doc">📄</div>
+          Doc
+        </div>
+        <div class="create-item">
+          <div class="icon form">📝</div>
+          Form
+        </div>
+        <div class="create-item">
+          <div class="icon dashboard">📊</div>
+          Dashboard
+        </div>
+        <div class="create-item">
+          <div class="icon whiteboard">✎</div>
+          Whiteboard
+        </div>
+        <div class="create-item">
+          <div class="icon section">▤</div>
+          Section
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- 🔹 Team Space -->
+        <div class="teamspace-container">
+          <!-- Row 1 -->
+          <div class="teamspace-row1">
+            <!-- 🔽 Integrated Dropdown -->
+            <div class="teamspace-dropdown">
+              <button class="dropdown-toggle">
+                <i class="fas fa-users"></i> Team Space
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="dropdown-menu">
+                <div class="dropdown-item">
+                  <i class="fas fa-users"></i> Team Space
+                  <span class="badge">Public</span>
+                </div>
+                <div class="dropdown-item">
+                  <i class="fas fa-users"></i> Team Space
+                </div>
+                <ul class="sub-list">
+                  <li><i class="fas fa-project-diagram"></i> Project 1</li>
+                  <li><i class="fas fa-project-diagram"></i> Project 2</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="right-section">
+              <button><i class="fas fa-robot"></i> Agents</button>
+              <button><i class="fas fa-bolt"></i> Automate</button>
+              <button><i class="fas fa-share-alt"></i> Share</button>
+              <button><i class="fas fa-wand-magic-sparkles"></i> AI</button>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="teamspace-row2">
+            <button><i class="fas fa-plus"></i> Add Channel</button>
+            <button><i class="fas fa-info-circle"></i> Overview</button>
+            <button><i class="fas fa-list"></i> List</button>
+            <button class="active"><i class="fas fa-th"></i> Board</button>
+            <button><i class="fas fa-calendar-alt"></i> Calendar</button>
+            <button><i class="fas fa-project-diagram"></i> Gantt</button>
+            <button><i class="fas fa-table"></i> Table</button>
+            <button><i class="fas fa-eye"></i> + View</button>
+          </div>
+        </div>
+
+        <!-- Board View -->
+        <div class="board-view">
+          <div class="board-container">
+            <!-- TO DO Column -->
+            <div class="board-column todo">
+              <div class="board-header">
+                <span class="status-label">TO DO</span>
+                <span class="task-count">0</span>
+                <span class="options">⋯</span>
+              </div>
+              <div class="task-list"></div>
+
+              <!-- Add Task Wrapper -->
+              <div class="add-task-wrapper">
+                <div class="add-task">+ Add Task</div>
+
+                <div class="task-form" style="display: none">
+                  <div class="task-form-header">
+                    <input
+                      type="text"
+                      placeholder="Task Name..."
+                      class="task-input"
+                    />
+                    <button class="save-task">Save</button>
+                  </div>
+
+                  <div class="task-options">
+                    <div class="task-option">
+                      <i class="fas fa-user"></i> Add assignee
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-calendar"></i> Add dates
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-flag"></i> Add priority
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- IN PROGRESS Column -->
+            <div class="board-column inprogress">
+              <div class="board-header">
+                <span class="status-label">IN PROGRESS</span>
+                <span class="task-count">0</span>
+                <span class="options">⋯</span>
+              </div>
+              <div class="task-list"></div>
+
+              <!-- Add Task Wrapper -->
+              <div class="add-task-wrapper">
+                <div class="add-task">+ Add Task</div>
+
+                <div class="task-form" style="display: none">
+                  <div class="task-form-header">
+                    <input
+                      type="text"
+                      placeholder="Task Name..."
+                      class="task-input"
+                    />
+                    <button class="save-task">Save</button>
+                  </div>
+
+                  <div class="task-options">
+                    <div class="task-option">
+                      <i class="fas fa-user"></i> Add assignee
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-calendar"></i> Add dates
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-flag"></i> Add priority
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPLETE Column -->
+            <div class="board-column complete">
+              <div class="board-header">
+                <span class="status-label">COMPLETE</span>
+                <span class="task-count">0</span>
+                <span class="options">⋯</span>
+              </div>
+              <div class="task-list"></div>
+
+              <!-- Add Task Wrapper -->
+              <div class="add-task-wrapper">
+                <div class="add-task">+ Add Task</div>
+
+                <div class="task-form" style="display: none">
+                  <div class="task-form-header">
+                    <input
+                      type="text"
+                      placeholder="Task Name..."
+                      class="task-input"
+                    />
+                    <button class="save-task">Save</button>
+                  </div>
+
+                  <div class="task-options">
+                    <div class="task-option">
+                      <i class="fas fa-user"></i> Add assignee
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-calendar"></i> Add dates
+                    </div>
+                    <div class="task-option">
+                      <i class="fas fa-flag"></i> Add priority
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+            <!-- + Add Group Button -->
+<div class="add-group-wrapper">
+  <div id="addGroupBtn" class="add-group-btn">+ Add group</div>
+
+  <!-- Hidden input box -->
+  <div id="groupInputBox" style="display:none;">
+    <!-- Colored square (click to open color picker) -->
+    <div id="selectedColor" 
+         class="color-square" 
+         style="background:#007bff; width:14px; height:14px; border-radius:3px; display:inline-block; margin-right:6px; cursor:pointer;">
+    </div>
+
+    <!-- Status Name Input -->
+    <input type="text" class="status-input" placeholder="Status Name" />
+
+    <!-- Hidden Color Picker -->
+    <div id="colorPicker" class="color-picker" style="display:none; margin-top:8px; padding:6px; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+      <div class="color-option" style="background:#007bff;"></div>
+      <div class="color-option" style="background:#28a745;"></div>
+      <div class="color-option" style="background:#ffc107;"></div>
+      <div class="color-option" style="background:#dc3545;"></div>
+      <div class="color-option" style="background:#6f42c1;"></div>
+      <div class="color-option" style="background:#17a2b8;"></div>
+      <div class="color-option" style="background:#fd7e14;"></div>
+      <div class="color-option" style="background:#20c997;"></div>
+      <div class="color-option" style="background:#343a40;"></div>
+      <div class="color-option" style="background:#e83e8c;"></div>
+    </div>
+  </div>
+</div>
+
+
+          </div>
+        </div>
+
+        <!-- 🔹 Task Modal -->
+    <div class="task-modal" id="taskModal">
+      <div class="modal-header">
+        <h2>react</h2>
+        <button class="close-btn" id="closeModal">X</button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Left section -->
+        <div class="modal-left">
+          <div class="task-details">
+            <p><strong>Status:</strong> To Do</p>
+            <p><strong>Assignees:</strong> Empty</p>
+            <p><strong>Dates:</strong> Start → Due</p>
+            <p><strong>Priority:</strong> Empty</p>
+            <p><strong>Time Estimate:</strong> Empty</p>
+            <p><strong>Track Time:</strong> Add Time</p>
+            <p><strong>Tags:</strong> Empty</p>
+            <p><strong>Relationships:</strong> Empty</p>
+          </div>
+        </div>
+
+        <!-- Right activity panel -->
+        <div class="modal-right">
+          <h3>Activity</h3>
+          <div class="activity-log">
+            <p><strong>sabhu</strong> – Sep 2 at 12:22 pm<br>hello</p>
+            <hr>
+            <p>Status changed from <span class="complete">Complete</span> → <span class="todo">To Do</span> (Sep 2 at 12:25 pm)</p>
+          </div>
+          <div class="comment-box">
+            <input type="text" placeholder="Write a comment...">
+            <button>Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    
+
+
+<script src="scriptmain.js"></script>
+
+  </body>
+</html>
