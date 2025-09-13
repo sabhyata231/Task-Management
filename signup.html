@@ -45,6 +45,27 @@
         color: #007bff;
         font-size: 14px;
       }
+
+      /* Spinner CSS */
+      #spinner {
+        display: none;
+        margin: 20px auto;
+        width: 40px;
+        height: 40px;
+        border: 4px solid #ccc;
+        border-top: 4px solid #6c63ff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -117,7 +138,11 @@
           <button type="button" id="togglePassword">Show</button>
         </div>
 
-        <button type="button" id="playBtn" class="btn">Play with ClickUp</button>
+        <button type="button" id="playBtn" class="btn">
+          Play with ClickUp
+        </button>
+        <!-- Add spinner element -->
+        <div id="spinner"></div>
       </form>
     </div>
 
@@ -139,27 +164,38 @@
         return JSON.parse(jsonPayload);
       }
 
-      // Callback after login
       function handleCredentialResponse(response) {
         const data = decodeJwtResponse(response.credential);
         const email = data.email;
         const picture = data.picture;
+        const name = data.name; // get user name
 
-        // Show profile info
-        document.getElementById("userInfo").style.display = "inline-flex";
+        // Show user info (optional if you want it above)
+        const userInfo = document.getElementById("userInfo");
+        const spinner = document.getElementById("spinner");
+        userInfo.style.display = "inline-flex";
         document.getElementById("userPic").src = picture;
         document.getElementById("userEmail").textContent = email;
 
-        // Directly redirect to dashboard
-        window.location.href = "dashboard.html";
+        // Replace Google button with "Continue as [Name]" + logo
+        const googleBtn = document.getElementById("googleBtn");
+        googleBtn.innerHTML = `
+    <div style="display:flex; align-items:center; gap:8px; justify-content:center;">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px; height:20px;">
+      Continue as ${name}
+    </div>
+  `;
+        googleBtn.style.pointerEvents = "none"; // disable click if desired
 
-        // Mark that user used Google
+        // Show spinner
+        spinner.style.display = "block";
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = "dashboard.html"; // redirect
+        }, 2500);
+
         isGoogleUser = true;
-
-        // Update Play button
-        const playBtn = document.getElementById("playBtn");
-        playBtn.textContent = "Play with ClickUp";
-        playBtn.disabled = false;
       }
 
       // Handle Play button click
@@ -172,7 +208,7 @@
           playBtn.disabled = true;
           setTimeout(() => {
             window.location.href = "dashboard.html";
-          }, 2000);
+          }, 2500);
         } else {
           // Manual form flow
           const name = document.getElementById("name").value.trim();

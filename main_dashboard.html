@@ -109,7 +109,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
     <!-- Topbar -->
     <div class="topbar">
@@ -202,8 +202,8 @@
           <ul class="dropdown" id="spacesDropdown">
             <li>➕ New Space</li>
             <li>👥 Team Space</li>
-            <li>✅ Project 1 <span class="count">3</span></li>
-            <li>✅ Project 2 <span class="count">3</span></li>
+            <li>✅ Project 1 <span class="count">0</span></li>
+            <li>✅ Project 2 <span class="count">0</span></li>
             <li>📄 Project Notes</li>
           </ul>
         </div>
@@ -447,45 +447,195 @@
           </div>
         </div>
 
-        <!-- 🔹 Task Modal -->
-    <div class="task-modal" id="taskModal">
-      <div class="modal-header">
-        <h2>react</h2>
-        <button class="close-btn" id="closeModal">X</button>
-      </div>
-      
-      <div class="modal-body">
-        <!-- Left section -->
-        <div class="modal-left">
-          <div class="task-details">
-            <p><strong>Status:</strong> To Do</p>
-            <p><strong>Assignees:</strong> Empty</p>
-            <p><strong>Dates:</strong> Start → Due</p>
-            <p><strong>Priority:</strong> Empty</p>
-            <p><strong>Time Estimate:</strong> Empty</p>
-            <p><strong>Track Time:</strong> Add Time</p>
-            <p><strong>Tags:</strong> Empty</p>
-            <p><strong>Relationships:</strong> Empty</p>
-          </div>
-        </div>
 
-        <!-- Right activity panel -->
-        <div class="modal-right">
-          <h3>Activity</h3>
-          <div class="activity-log">
-            <p><strong>sabhu</strong> – Sep 2 at 12:22 pm<br>hello</p>
-            <hr>
-            <p>Status changed from <span class="complete">Complete</span> → <span class="todo">To Do</span> (Sep 2 at 12:25 pm)</p>
+
+<!-- Task Modal / Drawer -->
+<aside class="task-drawer" id="taskDrawer" role="dialog" aria-modal="true" aria-labelledby="taskTitle">
+
+  <!-- Drawer Header -->
+  <header class="task-drawer__header">
+    <div class="task-drawer__breadcrumbs">
+      <span class="crumb">Team Space</span>
+      <span class="sep">/</span>
+      <span class="crumb">Project 2</span>
+      <span class="sep">/</span>
+      <span class="crumb id" id="taskId">#86d05jf95</span>
+      <button class="pill pill--ai">Ask AI</button>
+    </div>
+
+    <div class="task-drawer__actions">
+      <span class="created-on">Created on Sep 1</span>
+      <button class="btn btn--ghost">Share</button>
+      <button class="btn btn--icon" aria-label="More options">⋯</button>
+      <button class="btn btn--icon" aria-label="Close" id="closeTaskDrawer">✕</button>
+    </div>
+  </header>
+
+  <!-- Drawer Body -->
+  <div class="task-drawer__body">
+
+    <!-- Left: Task main -->
+    <section class="task-main">
+
+      <!-- Title -->
+      <h1 class="task-title" id="taskTitle">react</h1>
+
+      <!-- Ask Brain / AI prompt -->
+      <div class="ai-prompt">
+        <span class="ai-sparkle">✷</span>
+        <span class="ai-text">Ask Brain to write a description, create a summary or find similar tasks</span>
+      </div>
+
+      <!-- Properties list -->
+      <ul class="prop-list">
+
+        <!-- Status -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">●</span>
+            <span>Status</span>
           </div>
-          <div class="comment-box">
-            <input type="text" placeholder="Write a comment...">
-            <button>Send</button>
+          <div class="prop__value">
+            <span class="pill pill--status">TO DO</span>
+            <button class="chip chip--check" aria-label="Mark as done">✓</button>
           </div>
+        </li>
+
+        <!-- Assignees -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">👤</span>
+            <span>Assignees</span>
+          </div>
+          <div class="prop__value muted">Empty</div>
+        </li>
+
+        <!-- Dates (Start / Due) -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">🗓️</span>
+            <span>Dates</span>
+          </div>
+          <div class="prop__value dates">
+            <button class="chip chip--ghost">Start</button>
+            <span class="arrow">→</span>
+            <button class="chip chip--ghost">Due</button>
+          </div>
+        </li>
+
+        <!-- Priority -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">⚑</span>
+            <span>Priority</span>
+          </div>
+          <div class="prop__value muted">Empty</div>
+        </li>
+
+        <!-- Time Estimate -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">⏳</span>
+            <span>Time Estimate</span>
+          </div>
+          <div class="prop__value muted">Empty</div>
+        </li>
+
+        <!-- Track Time -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">⏱️</span>
+            <span>Track Time</span>
+          </div>
+          <div class="prop__value">
+            <button class="chip chip--ghost">Add time</button>
+          </div>
+        </li>
+
+        <!-- Tags -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">🏷️</span>
+            <span>Tags</span>
+          </div>
+          <div class="prop__value muted">Empty</div>
+        </li>
+
+        <!-- Relationships -->
+        <li class="prop">
+          <div class="prop__label">
+            <span class="icon">🔗</span>
+            <span>Relationships</span>
+          </div>
+          <div class="prop__value muted">Empty</div>
+        </li>
+
+      </ul>
+
+      <!-- Subtasks -->
+      <section class="task-section">
+        <h3 class="section-title">Subtasks</h3>
+        <button class="add-btn">+ Add Task</button>
+        <div class="subtask-list"></div>
+      </section>
+
+      <!-- Checklists -->
+      <section class="task-section">
+        <h3 class="section-title">Checklists</h3>
+        <button class="add-btn">+ Create checklist</button>
+        <div class="checklist-list"></div>
+      </section>
+
+      <!-- Attachments -->
+      <section class="task-section">
+        <h3 class="section-title">Attachments</h3>
+        <div class="attachment-drop">
+          <p>Drop your files here or <a href="#" id="uploadLink">upload</a></p>
+          <input type="file" id="fileInput" multiple style="display:none;">
         </div>
-      </div>
-    </div>
-      </div>
-    </div>
+        <div id="preview" class="preview"></div>
+      </section>
+
+    </section>
+
+    <!-- Right: Activity panel -->
+    <aside class="activity">
+
+      <header class="activity__header">
+        <h2 class="activity__title">Activity</h2>
+        <div class="activity__toolbar">
+          <button class="btn btn--icon" aria-label="Search activity">🔎</button>
+          <button class="btn btn--icon" aria-label="Notifications">🔔
+            <span id="badge" class="activity__count" style="display:none;">0</span>
+          </button>
+
+          <button class="btn btn--icon" aria-label="More">⋯</button>
+        </div>
+      </header>
+
+      <ol class="activity__list">
+
+      </ol>
+
+      <!-- Comment composer -->
+<footer class="composer">
+  <div 
+    id="commentInput" 
+    class="composer__box" 
+    contenteditable="true" 
+    role="textbox" 
+    aria-label="Write a comment..."
+  ></div>
+  <button id="commentSubmit" class="btn btn--primary">Send</button>
+</footer>
+
+<!-- Optional comment list container -->
+<ul id="commentList" class="comment-list"></ul>
+
+
+    </aside>
+  </div>
+</aside>
 
     
 
